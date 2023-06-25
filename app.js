@@ -3,7 +3,10 @@ require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-var encrypt = require('mongoose-encryption');
+//var encrypt = require('mongoose-encryption');
+//var md5 = require('md5');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 //const _ = require("lodash");
 const { name } = require("ejs");
 
@@ -23,9 +26,7 @@ const userSchema = new mongoose.Schema({
     password: String
 });
 //DB encription
-secret = process.env.SECRET;
 
-userSchema.plugin(encrypt, { secret: secret,  encryptedFields: ['password'] });
 
 
 const User = mongoose.model("User", userSchema);
@@ -45,20 +46,26 @@ app.get("/register", function(req, res){
     res.render("register");
 });
 
+
 app.post("/register", function(req,res){
 
-    const newUser =  new User ({
-        email: req.body.username,
-        password: req.body.password
+    bcrypt.hash(req.body.password, saltRounds).then(function(hash) {
 
+        const newUser =  new User ({
+            email: req.body.username,
+            password: hash
+    
+        })
+        newUser.save().then(function(saveUser){
+            if (saveUser) {
+            res.render("secrets");  
+            } else{
+                res.send("Oups please retry pls!");
+            }
+        });
     })
-    newUser.save().then(function(saveUser){
-        if (saveUser) {
-        res.render("secrets");  
-        } else{
-            res.send("Oups please retry pls!");
-        }
-    })
+    
+
 
 });
 
@@ -72,15 +79,24 @@ app.post("/login", function(req, res){
            res.redirect("/login")
             
         } else {
-            if (foundUser.password === passWord) {
-                res.render("secrets");
-            } else {
-                console.log("Password not Match");
-                res.redirect("/login")
-            }
+            // bcrypt.compareSync(passWord, foundUser.password , function (passMatch){
+               
+            // }); // true
+            var resultMatch = bcrypt.compareSync(passWord, foundUser.password);
+
+                if (resultMatch) {
+                    res.render("secrets");
+                } else {
+                    console.log("Password not Match");
+                    res.redirect("/login")
+                }
+
+            
         }
     })
 });
+
+
 
 
 
