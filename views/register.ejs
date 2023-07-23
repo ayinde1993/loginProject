@@ -1,38 +1,56 @@
 <%- include('partials/header') %>
 <div class="container mt-5">
+  <h1>Register</h1>
 
-  <div class="login-box">
-    <h2>Register</h2>
-    <form action="/register" method="POST"> 
-      <div class="user-box">
-        <input type="text" name="username" required="">
-        <label>Username</label>
-      </div>
-      <div class="user-box">
-        <input type="password" name="password" required="">
-        <label>Password</label>
-      </div>
-      <button class="button" type="submit" name="register">REGISTER</button>
-      <!-- <a href="#">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        Register
-      </a> -->
-    </form>
-  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
 
-    <!-- <div class="col-sm-4">
+          <!-- Makes POST request to /register route -->
+          <form action="/register" method="POST">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-dark">Register</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
       <div class="card social-block">
         <div class="card-body">
-          <a class="btn btn-block" href="/auth/google" role="button">
+          <a class="btn btn-block btn-sociaal btn-google" href="/auth/google" role="button">
             <i class="fab fa-google"></i>
             Sign Up with Google
           </a>
         </div>
+        <div class="card-body">
+          <a class="btn btn-block btn-sociaal btn-facebook" href="/auth/facebook" role="button">
+            <i class="fab fa-facebook"></i>
+            Sign Up with FaceBook
+          </a>
+        </div>
+
+        <div class="card-body">
+          <a class="btn btn-block btn-sociaal btn-linkedin" href="/auth/google" role="button">
+            <i class="fab fa-linkedin"></i>
+            Sign Up with Linkedin
+          </a>
+        </div>
+
+        
+
       </div>
-    </div> -->
+    </div>
+
 
   </div>
 </div>

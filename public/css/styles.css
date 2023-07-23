@@ -104,9 +104,10 @@ html {
               0 0 100px #03e9f4;
 }
 
-.button {
+.login-box .button {
   position: absolute;
   display: block;
+ 
 }
 /* 
 .login-box a span:nth-child(1) {
